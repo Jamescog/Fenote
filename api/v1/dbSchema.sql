@@ -2,10 +2,7 @@
 DROP DATABASE IF EXISTS FENOTE;
 CREATE DATABASE FENOTE;
 
--- Create user 
-CREATE USER 'Techtopians'@'localhost' IDENTIFIED BY 'password';
-GRANT ALL PRIVILEGES ON FENOTE.* TO 'Techethiopians'@'localhost';
-FLUSH PRIVILEGES;
+
 
 USE FENOTE;
 
@@ -14,7 +11,7 @@ CREATE TABLE users (
   user_id INT PRIMARY KEY AUTO_INCREMENT,
   username VARCHAR(50) NOT NULL,
   password TEXT  NOT NULL,
-  email VARCHAR(50) NOT NULL,
+  email VARCHAR(50) NOT NULL UNIQUE,
   user_type ENUM('admin', 'author', 'student') NOT NULL
 );
 
@@ -110,3 +107,8 @@ CREATE TABLE scores (
   FOREIGN KEY (project_id) REFERENCES projects(project_id),
   FOREIGN KEY (student_id) REFERENCES users(user_id)
 );
+
+Create user 
+CREATE USER 'Techtopians'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON FENOTE.* TO 'Techtopians'@'localhost';
+FLUSH PRIVILEGES;
