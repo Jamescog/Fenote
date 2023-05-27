@@ -13,6 +13,7 @@ CREATE TABLE users (
   password TEXT  NOT NULL,
   email VARCHAR(50) NOT NULL UNIQUE,
   user_type ENUM('admin', 'author', 'student') NOT NULL
+  confirmed  
 );
 
 -- Course Table

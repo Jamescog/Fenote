@@ -6,6 +6,11 @@ const dotenv = require("dotenv");
 const app = express();
 app.use(express.json());
 dotenv.config({ path: ".env" });
+
+/**
+ * Starts the server by authenticating with the database, synchronizing the models,
+ * and listening on the specified port.
+ */
 const startServer = async () => {
   await dbConfig.authenticate();
   console.log(`Connected to Database`);
@@ -16,7 +21,6 @@ const startServer = async () => {
     console.log(
       `The server is running at http://localhost:${process.env.PORT}`
     );
-    console.log(process.env.DB_NAME);
   });
 };
 

@@ -1,6 +1,10 @@
 const { DataTypes } = require("sequelize");
 const dbConfig = require("../db");
 
+/**
+ * Represents the "User" model.
+ */
+
 const User = dbConfig.define("User", {
   id: {
     type: DataTypes.INTEGER,
@@ -23,6 +27,10 @@ const User = dbConfig.define("User", {
   type: {
     type: DataTypes.ENUM("admin", "author", "student"),
     allowNull: false,
+  },
+  confirmed: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
   },
 });
 
