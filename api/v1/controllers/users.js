@@ -128,3 +128,20 @@ exports.resetPasswordRequest = async (req, res) => {
     throw err;
   }
 };
+
+/**
+ * Updates a user's password based on the provided email.
+ * @param {Object} req.body - The request body containing the email and new password.
+ * @returns {Object} The response object with a success message and status code.
+ * @author Yaekob Demisse
+ */
+exports.approvedReset = async (req, res) => {
+  const { email, password } = req.body;
+
+  await User.update({ password }, { where: { email } });
+
+  return res.status(200).json({
+    success: true,
+    message: `Password changed successfully`,
+  });
+};

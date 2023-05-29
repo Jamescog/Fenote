@@ -7,6 +7,7 @@ const {
   logoutUser,
   confrimUser,
   resetPasswordRequest,
+  approvedReset,
 } = require("../controllers/users");
 const userRouter = express.Router();
 
@@ -15,5 +16,6 @@ userRouter.get("/confirm", confrimUser);
 userRouter.post("/login", loginUser);
 userRouter.post("/requestreset", resetPasswordRequest);
 userRouter.post("/logout", verifyToken, logoutUser);
+userRouter.post("/verifiedreset", passwordHasher, approvedReset);
 
 module.exports = userRouter;
