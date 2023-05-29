@@ -1,6 +1,6 @@
 ###
 
-POST http://localhost:3333/api/v1/register HTTP/1.1
+POST http://localhost:3333/api/v1/users/register HTTP/1.1
 content-type: application/json
 
 {

@@ -1,6 +1,6 @@
 const express = require("express");
 const dbConfig = require("./db");
-const mainRouter = require("./routes/main");
+const mainRouter = require("./routes/mainRoute");
 const dotenv = require("dotenv");
 
 const app = express();
