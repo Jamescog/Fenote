@@ -1,5 +1,5 @@
-const User = require("../models/users");
-const BlacklistedToken = require("../models/blacklist");
+const User = require("../models/users.Model");
+const BlacklistedToken = require("../models/blacklist.Model");
 const { confirmEmail, resetingRequest } = require("../utils/sendEmail");
 const bcrypt = require("bcrypt");
 const { Op } = require("sequelize");

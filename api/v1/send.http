@@ -4,20 +4,20 @@ POST http://localhost:3333/api/v1/users/register HTTP/1.1
 content-type: application/json
 
 {
-    "username":"Jamescog",
+    "username":"Jitu",
     "type":"admin",
-    "email":"jamescog72@gmail.com",
+    "email":"jitutesfaye17@gmail.com",
     "password":"234354"
 }
 
 
 ###
-POST http://localhost:3333/api/v1/login HTTP/1.1
+POST http://localhost:3333/api/v1/users/login HTTP/1.1
 content-type: application/json
 
 {
         "email":"jamescog72@gmail.com",
-        "password":"234354"
+        "password":"12345678"
 }
 
 
@@ -33,4 +33,13 @@ content-type: application/json
 
 {
     "email":"jamescog72@gmail.com"
+}
+
+### 
+POST http://localhost:3333/api/v1/users/verifiedreset HTTP/1.1
+Content-Type: application/json
+
+{
+    "email":"jamescog72@gmail.com",
+    "password":"12345678"
 }
