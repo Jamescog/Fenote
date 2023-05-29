@@ -7,14 +7,15 @@ CREATE DATABASE FENOTE;
 USE FENOTE;
 
 -- Users Table to Store user information on the database
-CREATE TABLE users (
-  user_id INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE User (
+  id INT PRIMARY KEY AUTO_INCREMENT,
   username VARCHAR(50) NOT NULL,
-  password TEXT  NOT NULL,
+  password TEXT NOT NULL,
   email VARCHAR(50) NOT NULL UNIQUE,
-  user_type ENUM('admin', 'author', 'student') NOT NULL
-  confirmed  
+  type ENUM('admin', 'author', 'student') NOT NULL,
+  confirmed BOOLEAN DEFAULT FALSE
 );
+
 
 -- Course Table
 CREATE TABLE courses (
