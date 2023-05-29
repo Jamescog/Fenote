@@ -31,7 +31,4 @@ const Course = dbConfig.define("Course", {
   },
 });
 
-const User = require("./users.Model");
-Course.belongsTo(User, { foreignKey: "author_id" });
-
 module.exports = Course;

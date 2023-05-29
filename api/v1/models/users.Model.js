@@ -2,6 +2,10 @@ const { DataTypes } = require("sequelize");
 const dbConfig = require("../db");
 const Course = require("./courses.Model");
 
+/**
+ * Represents the "Course" model.
+ */
+
 const User = dbConfig.define("User", {
   id: {
     type: DataTypes.INTEGER,
@@ -31,6 +35,6 @@ const User = dbConfig.define("User", {
   },
 });
 
-User.hasMany(Course, { foreignKey: "author_id" });
+User.hasMany(Course, { as: "Courses", foreignKey: "course_id" });
 
 module.exports = User;
