@@ -1,30 +1,30 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db");
 
-const Course = sequelize.define("Course", {
-  course_id: {
+const Project = sequelize.define("Project", {
+  project_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
-  course_name: {
+  project_name: {
     type: DataTypes.STRING(50),
     allowNull: false,
   },
   description: {
     type: DataTypes.TEXT,
   },
-  prerequisites: {
-    type: DataTypes.TEXT,
-  },
-  skill_level: {
-    type: DataTypes.ENUM("beginner", "intermediate", "advanced"),
+  week_number: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
-  author_id: {
+  due_date: {
+    type: DataTypes.DATE,
+  },
+  course_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
 });
 
-module.exports = Course;
+module.exports = Project;

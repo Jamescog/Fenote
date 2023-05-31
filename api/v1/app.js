@@ -3,6 +3,8 @@ const dbConfig = require("./db");
 const mainRouter = require("./routes/mainRoute");
 const dotenv = require("dotenv");
 
+const models = require("./models/relationships");
+
 const app = express();
 app.use(express.json());
 dotenv.config({ path: ".env" });
