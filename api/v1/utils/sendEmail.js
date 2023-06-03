@@ -62,7 +62,7 @@ exports.confirmEmail = (recieverEmail) => {
           <p>
             Thank you for registering with our service! To complete the registration process and activate your account, please confirm your email address by clicking the link below:
           </p>
-          <a href="http://localhost:3333/api/v1/confirm?email=${encodeURIComponent(
+          <a href="http://localhost:3333/api/v1/users/confirm?email=${encodeURIComponent(
             recieverEmail
           )}">Confirm Email Address</a
           <p>

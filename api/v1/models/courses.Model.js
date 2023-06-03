@@ -21,6 +21,10 @@ const Course = sequelize.define("Course", {
     type: DataTypes.ENUM("beginner", "intermediate", "advanced"),
     allowNull: false,
   },
+  status: {
+    type: DataTypes.ENUM("underconstruction", "pending", "approved"),
+    defaultValue: "underconstruction",
+  },
   author_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
