@@ -7,14 +7,6 @@ exports.errorHandler = (err, req, res, next) => {
       success: false,
       error: errorMessage,
     });
-  } else if (err.name === "SequelizeUniqueConstraintError") {
-    const { path } = err.errors[0];
-    let errorMessage = `Unique constraint error for field '${path}': Value must be unique.`;
-
-    res.status(400).json({
-      success: false,
-      error: errorMessage,
-    });
   } else if (err.name === "SequelizeForeignKeyConstraintError") {
     const { table, key } = err.index;
     let errorMessage = `Foreign key constraint error on table '${table}': '${key}' does not exist.`;
@@ -23,10 +15,10 @@ exports.errorHandler = (err, req, res, next) => {
       success: false,
       error: errorMessage,
     });
-  } else if (err.name === "SequelizeDatabaseError") {
-    const errorMessage = err.message;
+  } else if (err.parent && err.parent.code === 'ER_DUP_ENTRY') {
+    const errorMessage = err.parent.sqlMessage;
 
-    res.status(500).json({
+    res.status(400).json({
       success: false,
       error: errorMessage,
     });

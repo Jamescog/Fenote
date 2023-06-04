@@ -1,9 +1,9 @@
+require("express-async-errors");
 const express = require("express");
 const dbConfig = require("./db");
 const mainRouter = require("./routes/mainRoute");
 const dotenv = require("dotenv");
-const errorHandler = require('./middlewares/errorHandler')
-require("express-async-errors");
+const { errorHandler } = require('./middlewares/errorHandler')
 
 const models = require("./models/relationships");
 
