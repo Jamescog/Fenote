@@ -4,8 +4,8 @@ const {
   createCourse,
   addResource,
   addProject,
-} = require("../controllers/course.Controller");
-const verifyToken = require("../middleware/verifyToken");
+} = require("../controllers/courses.Controller");
+const { verifyToken } = require("../middlewares/verifyToken");
 
 router.post("/create", verifyToken, createCourse);
 router.post("/addResource", verifyToken, addResource);

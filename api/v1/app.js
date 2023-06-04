@@ -2,6 +2,8 @@ const express = require("express");
 const dbConfig = require("./db");
 const mainRouter = require("./routes/mainRoute");
 const dotenv = require("dotenv");
+const errorHandler = require('./middlewares/errorHandler')
+require("express-async-errors");
 
 const models = require("./models/relationships");
 
@@ -19,6 +21,7 @@ const startServer = async () => {
   dbConfig.sync();
 
   app.use("/api/v1/", mainRouter);
+  app.use(errorHandler)
   app.listen(process.env.PORT, () => {
     console.log(
       `The server is running at http://localhost:${process.env.PORT}`

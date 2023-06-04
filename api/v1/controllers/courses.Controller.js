@@ -3,14 +3,25 @@ const Content = require("../models/courseContent.Model");
 const User = require("../models/users.Model");
 const Project = require("../models/projects.Model");
 
+/**
+ * Creates a new course.
+ * @param {Object} req - The request object.
+ * @param {Object} req.user - The authenticated user object.
+ * @param {string} req.user.email - The email of the authenticated user.
+ * @param {string} req.user.id - The ID of the authenticated user.
+ * @param {Object} req.body - The request body containing course_name, description, prerequisites, skill_level, and author_id.
+ * @returns {Object} The response object with a success message, created course, and status code.
+ * @throws {Error} If the user is not authorized or there is an error creating the course.
+ */
 exports.createCourse = async (req, res) => {
-  const { email, id } = req.user;
+  const { email } = req.user;
 
   const author = await User.findOne({ email });
   if (author && author.type !== "author") {
-    const err = Error(` Your account is not authorized to create a course`);
+    const err = Error(`Your account is not authorized to create a course`);
     err.status = 401;
     err.type = "custom";
+    throw err;
   }
 
   req.body.author_id = author.id;
@@ -31,10 +42,19 @@ exports.createCourse = async (req, res) => {
   });
 };
 
+/**
+ * Adds a resource to a course.
+ * @param {Object} req - The request object.
+ * @param {Object} req.user - The authenticated user object.
+ * @param {string} req.user.user.id - The ID of the authenticated user.
+ * @param {Object} req.body - The request body containing course_name, content_url, content_name, content_order, and week_number.
+ * @returns {Object} The response object with a success message, created content, and status code.
+ * @throws {Error} If the course is not found, the user is not authorized, or there is an error creating the content.
+ */
 exports.addResource = async (req, res) => {
-  const { course_name, content_url, content_name, content_order, week_order } =
+  const { course_name, content_url, content_name, content_order, week_number } =
     req.body;
-  const course = Course.findOne({ course_name });
+  const course = await Course.findOne({ course_name });
   if (!course) {
     const err = Error(`Course with name ${course_name} is not found`);
     err.status = 404;
@@ -42,21 +62,23 @@ exports.addResource = async (req, res) => {
     throw err;
   }
 
-  if (course.author_id !== req.user.id) {
+  if (course.author_id !== req.user.user.id) {
     const err = Error(
-      `You are not authorized to add resource to this course ${course_name}`
+      `You are not authorized to add a resource to this course ${course_name}`
     );
     err.status = 401;
     err.type = "custom";
     throw err;
   }
 
-  const newContent = Content.create({
+  const course_id = course.course_id;
+  const newContent = await Content.create({
+    course_id,
     course_name,
     content_name,
     content_order,
     content_url,
-    week_order,
+    week_number,
   });
   return res.status(201).json({
     success: true,
@@ -65,9 +87,16 @@ exports.addResource = async (req, res) => {
   });
 };
 
+/**
+ * Updates a course.
+ * @param {Object} req - The request object.
+ * @param {Object} req.body - The request body containing course_name and updateData.
+ * @returns {Object} The response object with a success message and status code.
+ * @throws {Error} If the course is not found, the user is not authorized, or there is an error updating the course.
+ */
 exports.updateCourse = async (req, res) => {
   const { course_name } = req.body;
-  const course = Course.findOne({ course_name });
+  const course = await Course.findOne({ course_name });
   if (!course) {
     const err = Error(`Course with name ${course_name} is not found`);
     err.status = 404;
@@ -84,14 +113,21 @@ exports.updateCourse = async (req, res) => {
     throw err;
   }
 
-  const updatedCourse = await Course.update(req.body, {
+  await Course.update(req.body, {
     where: { course_name },
   });
 };
-// controller to delete a course
+
+/**
+ * Deletes a course.
+ * @param {Object} req - The request object.
+ * @param {Object} req.body - The request body containing course_name.
+ * @returns {Object} The response object with a success message and status code.
+ * @throws {Error} If the course is not found, the user is not authorized, or there is an error deleting the course.
+ */
 exports.deleteCourse = async (req, res) => {
   const { course_name } = req.body;
-  const course = Course.findOne({ course_name });
+  const course = await Course.findOne({ course_name });
   if (!course) {
     const err = Error(`Course with name ${course_name} is not found`);
     err.status = 404;
@@ -115,11 +151,18 @@ exports.deleteCourse = async (req, res) => {
   });
 };
 
+/**
+ * Adds a project to a course.
+ * @param {Object} req - The request object.
+ * @param {Object} req.body - The request body containing course_name, project_name, description, week_number, and due_date.
+ * @returns {Object} The response object with a success message and status code.
+ * @throws {Error} If the course is not found, the user is not authorized, or there is an error creating the project.
+ */
 exports.addProject = async (req, res) => {
   const { course_name, project_name, description, week_number, due_date } =
     req.body;
 
-  const course = Course.findOne({ course_name });
+  const course = await Course.findOne({ course_name });
   if (!course) {
     const err = Error(`Course with name ${course_name} is not found`);
     err.status = 404;
@@ -129,14 +172,14 @@ exports.addProject = async (req, res) => {
 
   if (course.author_id !== req.user.id) {
     const err = Error(
-      `You are not authorized to add project to this course ${course_name}`
+      `You are not authorized to add a project to this course ${course_name}`
     );
     err.status = 401;
     err.type = "custom";
     throw err;
   }
 
-  const newProject = await Project.create({
+  await Project.create({
     course_name,
     project_name,
     description,
@@ -149,11 +192,17 @@ exports.addProject = async (req, res) => {
   });
 };
 
-// controller to update project
+/**
+ * Updates a project.
+ * @param {Object} req - The request object.
+ * @param {Object} req.body - The request body containing course_name, project_name, and updateData.
+ * @returns {Object} The response object with a success message and status code.
+ * @throws {Error} If the course is not found, the user is not authorized, or there is an error updating the project.
+ */
 exports.updateProject = async (req, res) => {
-  const { course_name, project_name, updateData } = req.body;
+  const { course_name, project_name } = req.body;
 
-  const course = Course.findOne({ course_name });
+  const course = await Course.findOne({ course_name });
   if (!course) {
     const err = Error(`Course with name ${course_name} is not found`);
     err.status = 404;
@@ -163,25 +212,29 @@ exports.updateProject = async (req, res) => {
 
   if (course.author_id !== req.user.id) {
     const err = Error(
-      `You are not authorized to update project to this course ${course_name}`
+      `You are not authorized to update the project ${project_name} in this course ${course_name}`
     );
     err.status = 401;
     err.type = "custom";
     throw err;
   }
 
-  const updatedProject = await Project.update(updateData, {
-    where: { project_name },
-  });
-  return res.status(201).json({
-    success: true,
-    message: `Project updated successfully!`,
+  await Project.update(req.body.updateData, {
+    where: { course_name, project_name },
   });
 };
 
-exports.getCourse = async (req, res) => {
-  const { course_name } = req.body;
-  const course = Course.findOne({ course_name });
+/**
+ * Deletes a project.
+ * @param {Object} req - The request object.
+ * @param {Object} req.body - The request body containing course_name and project_name.
+ * @returns {Object} The response object with a success message and status code.
+ * @throws {Error} If the course is not found, the user is not authorized, or there is an error deleting the project.
+ */
+exports.deleteProject = async (req, res) => {
+  const { course_name, project_name } = req.body;
+
+  const course = await Course.findOne({ course_name });
   if (!course) {
     const err = Error(`Course with name ${course_name} is not found`);
     err.status = 404;
@@ -189,16 +242,18 @@ exports.getCourse = async (req, res) => {
     throw err;
   }
 
-  const projects = await Project.findAll({ where: { course_name } });
-  const contents = await Content.findAll({ where: { course_name } });
-  const score = await Score.findOne({ where: { course_name } });
+  if (course.author_id !== req.user.id) {
+    const err = Error(
+      `You are not authorized to delete the project ${project_name} in this course ${course_name}`
+    );
+    err.status = 401;
+    err.type = "custom";
+    throw err;
+  }
 
+  await Project.destroy({ where: { course_name, project_name } });
   return res.status(200).json({
     success: true,
-    message: `Course fetched successfully!`,
-    course,
-    projects,
-    contents,
-    score,
+    message: `Project deleted successfully!`,
   });
 };

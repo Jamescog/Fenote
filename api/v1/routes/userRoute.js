@@ -8,7 +8,7 @@ const {
   confrimUser,
   resetPasswordRequest,
   approvedReset,
-} = require("../controllers/users.Contorller");
+} = require("../controllers/auth.Contorller");
 const userRouter = express.Router();
 
 userRouter.post("/register", passwordHasher, createUser);
