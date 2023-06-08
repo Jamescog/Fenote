@@ -24,7 +24,7 @@ const SubmittedProject = sequelize.define("SubmittedProject", {
     defaultValue: false,
   },
   status: {
-    type: DataTypes.STRING.ENUM("pending", "scored"),
+    type: DataTypes.ENUM("pending", "scored"),
     defaultValue: "pending",
   },
 });

@@ -104,7 +104,7 @@ exports.updateCourse = async (req, res) => {
     throw err;
   }
 
-  if (course.author_id !== req.user.id) {
+  if (course.author_id !== req.user.user.id) {
     const err = Error(
       `You are not authorized to update this course ${course_name}`
     );
@@ -135,7 +135,7 @@ exports.deleteCourse = async (req, res) => {
     throw err;
   }
 
-  if (course.author_id !== req.user.id) {
+  if (course.author_id !== req.user.user.id) {
     const err = Error(
       `You are not authorized to delete this course ${course_name}`
     );
@@ -255,5 +255,165 @@ exports.deleteProject = async (req, res) => {
   return res.status(200).json({
     success: true,
     message: `Project deleted successfully!`,
+  });
+};
+
+/**
+ * Retrieves a course by its name.
+ * @param {Object} req - The request object.
+ * @param {Object} req.body - The request body containing the course_name.
+ * @returns {Object} The response object with the retrieved course and status code.
+ * @throws {Error} If the course is not found or there is an error retrieving the course.
+ */
+
+exports.getCourseByName = async (req, res) => {
+  const { course_name } = req.params.course_name;
+
+  const course = await Course.findOne({ course_name });
+
+  if (!course) {
+    const err = Error(`Course with name ${course_name} is not found`);
+    err.status = 404;
+    err.type = "custom";
+    throw err;
+  }
+
+  const author = await User.findOne({ id: course.author_id });
+  const projects = await Project.findAll({ course_name });
+  const courseProjects = projects.map((project) => {
+    return {
+      project_name: project.project_name,
+      description: project.description,
+      week_number: project.week_number,
+      due_date: project.due_date,
+    };
+  });
+
+  const contents = await CourseContent.findAll({ course_name });
+  const courseContent = courseContent.map((content) => {
+    return {
+      content_name: content.content_name,
+      description: content.description,
+      week_number: content.week_number,
+      contenet_order: content.content_order,
+      content_type: content.content_type,
+    };
+  });
+
+  return res.status(200).json({
+    success: true,
+    message: `Course found successfully!`,
+    course: {
+      course_name: course.course_name,
+      description: course.description,
+      duration: course.duration,
+      author: author.full_name,
+      course_id: course.course_id,
+      skill_level: course.skill_level,
+      courseProjects,
+      courseContent,
+    },
+  });
+};
+
+/**
+ * Retrieves all approved courses.
+ * @param {Object} req - The request object.
+ * @param {Object} req.query - The query parameters.
+ * @param {string} req.query.skill_level - Optional. The skill level to filter the courses by.
+ * @returns {Object} The response object with the retrieved courses and status code.
+ */
+
+exports.getAllApprovedCourses = async (req, res) => {
+  const skill_level = req.query.skill_level;
+  const courses = await Course.findAll({
+    where: { status: "approved" },
+  });
+
+  if (skill_level) {
+    const filteredCourses = courses.filter(
+      (course) => course.skill_level === skill_level
+    );
+    return res.status(200).json({
+      success: true,
+      message: `Courses found successfully!`,
+      courses: filteredCourses,
+    });
+  } else {
+    return res.status(200).json({
+      success: true,
+      message: `Courses found successfully!`,
+      courses,
+    });
+  }
+};
+
+/**
+ * Retrieves all pending courses.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} The response object with a success message and the list of pending courses.
+ */
+
+exports.getAllPendingCourses = async (req, res) => {
+  const courses = await Course.findAll({
+    where: { status: "pending" },
+  });
+
+  return res.status(200).json({
+    success: true,
+    message: `Courses found successfully!`,
+    courses,
+  });
+};
+
+/**
+ * Approves or rejects a course.
+ * @param {Object} req - The request object.
+ * @param {Object} req.body - The request body containing the course_name and result (approved or rejected).
+ * @returns {Object} The response object with the status message and status code.
+ */
+
+exports.approveCourse = async (req, res) => {
+  const { course_name, result } = req.body;
+
+  const course = await Course.findOne({ course_name });
+
+  if (result === "approved") {
+    await Course.update({ status: "approved" }, { where: { course_name } });
+    return res.status(200).json({
+      success: true,
+      message: `Course approved successfully!`,
+    });
+  }
+
+  if (result === "rejected") {
+    await Course.destroy({ where: { course_name } });
+    return res.status(200).json({
+      success: true,
+      message: `Course rejected successfully!`,
+    });
+  }
+};
+
+/**
+ * Retrieves all courses created by the authenticated author.
+ * @param {Object} req - The request object.
+ * @param {Object} req.user - The authenticated user object.
+ * @param {string} req.user.user.id - The ID of the authenticated author.
+ * @returns {Object} The response object with the retrieved courses and status code.
+ */
+
+exports.getAllCoursesByAuthor = async (req, res) => {
+  const author_id = req.user.user.id;
+
+  const courses = await Course.findAll({
+    where: { author_id },
+  });
+
+  return res.status(200).json({
+    success: true,
+    message: `Courses found successfully!`,
+    courses,
   });
 };
