@@ -4,9 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    
-  "start": "node server.js"
+    "start": "node server.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@fontsource/roboto": "^5.0.3",
+    "@mui/material": "^5.13.6",
+    "@mui/styled-engine-sc": "^5.12.0",
+    "react-router-dom": "^6.14.0",
+    "styled-components": "^5.3.11"
+  }
 }
