@@ -14,9 +14,9 @@ const Project = require("../models/projects.Model");
  * @throws {Error} If the user is not authorized or there is an error creating the course.
  */
 exports.createCourse = async (req, res) => {
-  const { email } = req.user;
+  const { id } = req.user.user;
 
-  const author = await User.findOne({ email });
+  const author = await User.findOne({ id });
   if (author && author.type !== "author") {
     const err = Error(`Your account is not authorized to create a course`);
     err.status = 401;
@@ -24,7 +24,7 @@ exports.createCourse = async (req, res) => {
     throw err;
   }
 
-  req.body.author_id = author.id;
+  req.body.author_id = id;
   const { course_name, description, prerequisites, skill_level, author_id } =
     req.body;
   const newCourse = await Course.create({
@@ -416,4 +416,45 @@ exports.getAllCoursesByAuthor = async (req, res) => {
     message: `Courses found successfully!`,
     courses,
   });
+};
+
+/**
+ * Retrieves all courses by skill_level.
+ * @param {Object} req - The request object.
+ * @param {Object} req.query - The query parameters.
+ * @param {string} req.query.skill_level - The skill level to filter the courses by.
+ * @returns {Object} The response object with the retrieved courses and status code.
+ * @throws {Error} If the skill_level is not provided.
+ * @throws {Error} If the skill_level is not valid.
+ * @throws {Error} If there is an error retrieving the courses.
+ */
+
+exports.getCoursesBySkillLevel = async (req, res, next) => {
+  const { skill_level } = req.query;
+
+  if (!skill_level) {
+    const err = new Error(`Skill level is required`);
+    err.status = 400;
+    err.type = "custom";
+    return next(err);
+  }
+
+  if (
+    skill_level !== "beginner" &&
+    skill_level !== "intermediate" &&
+    skill_level !== "advanced"
+  ) {
+    const err = new Error(`Skill level is invalid`);
+    err.status = 400;
+    err.type = "custom";
+    throw err;
+  }
+
+  const courses = await Course.findAll({
+    where: {
+      skill_level: skill_level,
+    },
+  });
+
+  res.status(200).json({ courses });
 };
