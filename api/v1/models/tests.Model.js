@@ -14,7 +14,10 @@ const Test = sequelize.define("Test", {
   description: {
     type: DataTypes.TEXT,
   },
-
+  form_link: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   passing_score: {
     type: DataTypes.INTEGER,
     allowNull: false,

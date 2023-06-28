@@ -109,7 +109,6 @@ exports.logoutUser = async (req, res) => {
  * @param {Object} req.body - The request body containing the email.
  * @returns {Object} The response object with a success message and status code.
  * @throws {Error} If a user with the provided email is not found.
- * @author Yaekob Demisse
  */
 
 exports.resetPasswordRequest = async (req, res) => {

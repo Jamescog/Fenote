@@ -17,6 +17,9 @@ const Course = sequelize.define("Course", {
   prerequisites: {
     type: DataTypes.TEXT,
   },
+  duration: {
+    type: DataTypes.INTEGER,
+  },
   skill_level: {
     type: DataTypes.ENUM("beginner", "intermediate", "advanced"),
     allowNull: false,

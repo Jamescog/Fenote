@@ -8,6 +8,7 @@ const Rating = require("./ratings.Model");
 const Review = require("./reviews.Model");
 const Certificate = require("./certificates.Model");
 const Score = require("./scores.Model");
+const submittedProject = require("./submittedProject.Model");
 
 // One-to-many relationship between User and Course.
 Course.belongsTo(User, { foreignKey: "author_id" });
@@ -48,6 +49,10 @@ Course.belongsToMany(User, { through: "Certificate", foreignKey: "course_id" });
 User.belongsToMany(Project, { through: "Score", foreignKey: "student_id" });
 Project.belongsToMany(User, { through: "Score", foreignKey: "project_id" });
 
+// One-to-many relationship between User and SubmittedProject.
+User.hasMany(submittedProject, { foreignKey: "student_id" });
+submittedProject.belongsTo(User, { foreignKey: "student_id" });
+
 module.exports = {
   User,
   Course,
@@ -59,4 +64,5 @@ module.exports = {
   Review,
   Certificate,
   Score,
+  submittedProject,
 };

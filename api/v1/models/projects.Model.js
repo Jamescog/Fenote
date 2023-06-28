@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db");
 
+// add weight feild
 const Project = sequelize.define("Project", {
   project_id: {
     type: DataTypes.INTEGER,
@@ -13,6 +14,10 @@ const Project = sequelize.define("Project", {
   },
   description: {
     type: DataTypes.TEXT,
+  },
+  project_wight: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
   },
   week_number: {
     type: DataTypes.INTEGER,

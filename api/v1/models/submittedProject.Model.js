@@ -1,33 +1,32 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db");
 
-const User = sequelize.define("User", {
-  id: {
+const SubmittedProject = sequelize.define("SubmittedProject", {
+  project_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
-  full_name: {
+  project_name: {
     type: DataTypes.STRING(50),
     allowNull: false,
   },
-  password: {
-    type: DataTypes.TEXT,
+  student_id: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
-  email: {
-    type: DataTypes.STRING(50),
-    allowNull: false,
-    unique: true,
-  },
-  type: {
-    type: DataTypes.ENUM("admin", "author", "student"),
+  project_link: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
-  confirmed: {
+  afterDeadline: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
+  status: {
+    type: DataTypes.ENUM("pending", "scored"),
+    defaultValue: "pending",
+  },
 });
 
-module.exports = User;
+module.exports = SubmittedProject;
