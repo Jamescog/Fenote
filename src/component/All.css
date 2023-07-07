@@ -1,0 +1,107 @@
+*{
+    margin: 0;
+}
+.all{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.test h1{
+    color: black;
+}
+.test-sec1{
+    display: flex;
+    justify-content: space-between;
+}
+.test-first{
+    display: flex;
+    gap: 80px;
+    padding: 50px;
+}
+.prof{
+    width: 100px;
+    height: 100px;
+    border: hidden;
+    background-image: url('./Assets/profile_3135715.png');
+    background-size:cover;
+    position: relative;
+    transform: rotate(323deg);
+    margin-bottom: 20px;
+}
+.test-sec1-check1{
+    width: 300px;
+    height: 300px;
+    border: hidden;
+    border-radius: 0px 60px 0px 60px;
+    box-shadow: -7px 5px 8px 4px rgba(0, 0, 0, 0.1);
+}
+.test-sec1-check1 p{
+    font-size: x-large;
+    padding: 20px;
+}
+.test-sec1-check p{
+    text-align: center;
+}
+.test-sec1-check h2 {
+    text-align: center;
+}
+.meet{
+    width: 100%;
+    height: 400px;
+    background-color: rgb(43, 149, 182);
+}
+.meet-sec{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+.meet h1{
+    color: #fff;
+}
+.meet1{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 50px;
+    color: #fff;
+    text-align: center;
+}
+.profile{
+    width: 100px;
+    height: 100px;
+    border: hidden;
+    border-radius: 50%;
+    background-image: url('./Assets/profile_3135715.png');
+    background-size: cover;
+}
+.partner{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 500px;
+}
+.img1{
+    margin-left: 40px;
+    width: 300px;
+    height: 300px;
+    border: hidden;
+    background-image: url('./Assets/AAStu.jpg');
+    background-size: cover;
+}
+.img2{
+    width: 300px;
+    height: 300px;
+    border: hidden;
+    background-image: url('./Assets/Gdsc.jpg');
+    background-size: cover;
+}
+.img3{
+    margin-right: 40px;
+    width: 300px;
+    height: 300px;
+    border: hidden;
+    background-image: url('./Assets/GDSC2.jpg');
+    background-size: cover;
+}

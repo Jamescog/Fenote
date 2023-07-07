@@ -1,0 +1,35 @@
+.sidebar{
+    display:flex;
+    height:100%;
+    width:250px;
+    margin:0px;
+   position:sticky;
+   top:50px; 
+  
+   
+  }
+  .SidebarList{
+   
+    padding:0;
+    width:100%;
+    color:black;
+    align-items: center;
+    font-size: 20px;
+   
+    margin:0%
+  }
+  .SidebarList .row{
+    padding-top: 2px;
+    width:200px;
+    height:50px;
+    margin:0%;
+    /* gap:10px; */
+
+   
+  }  
+  .SidebarList.row.active ,.SidebarList.row:hover{
+background-color: rgb(35, 52, 119);
+  }
+  div:hover { background-color:rgb(186, 172, 192) }
+  
+  

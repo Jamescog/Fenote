@@ -1,0 +1,61 @@
+.courses{
+    display:block;
+    row-gap:20px;
+    /* align-content: center; */
+    margin-top: 20px;
+    
+    width:50%;
+    height:200px;
+   
+    gap:20px;
+}
+.course2{
+    width:550px;
+    height:50px;
+    flex:1;
+    margin :auto;
+    margin-bottom: 10px;
+    padding:30px;
+    /* border-radius: 10px; */
+    /* -webkit-box-align: 10px 10px 5px 0px rgba(0,0,0,0.75); */
+/* -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75); */
+box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+background-color:rgb(236, 240, 243);
+align-content: center;
+border: 0vh;
+
+}
+.course3{
+    width:550px;
+    height:50px;
+    flex:1;
+    margin-bottom: 10px;
+    margin :auto;
+    padding:30px;
+    /* border-radius: 10px; */
+    /* -webkit-box-align: 10px 10px 5px 0px rgba(0,0,0,0.75); */
+/* -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75); */
+ box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75); 
+align-content: center;
+background-color:rgb(236, 240, 243);
+}
+.course1{
+    width:550px;
+    height:50px;
+    flex:1;
+    margin :auto;
+    margin-bottom: 10px;
+    padding:30px;
+    /* border-radius: 10px; 
+    -webkit-box-align: 10px 10px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75); */
+box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75); 
+align-content: center;
+background-color: rgb(236, 240, 243);
+}
+.levels h1{
+    font-weight: 600px;
+    font-size:xx-large;
+    align-content: center;
+}
+div:hover { background-color:rgb(186, 172, 192) }

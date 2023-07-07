@@ -1,0 +1,35 @@
+.levels{
+    width:50%;
+    height:200px;
+    display:flex;
+    gap:20px;
+    
+}
+.begin{
+    background-color:rgb(189, 189, 223);
+    color:black;
+   
+    box-shadow:40px;
+    border:0.5vh solid;
+    border:none;
+    margin-top:4px;
+}
+.intermidate{
+    background-color:rgb(189, 189, 223);
+    color:black;
+   
+    box-shadow:40px;
+    border:0.5vh solid;
+    border:none;
+    margin-top:4px;
+}
+.advanced{
+    background-color:rgb(189, 189, 223);
+    color:black;
+   
+    box-shadow:40px;
+    border:0.5vh solid;
+    border:none;
+    margin-top:4px;
+}
+div:hover { background-color:rgb(186, 172, 192) }
